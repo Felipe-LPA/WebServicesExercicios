@@ -57,8 +57,8 @@ public class ClienteController {
         return ResponseEntity.ok(new ResponseCliente(cliente));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseCliente> removeCliente(@PathVariable UUID id) throws Exception {
-        Cliente cliente = bancoCliente.removeCliente(id);
-        return ResponseEntity.ok(new ResponseCliente(cliente));
+    public ResponseEntity removeCliente(@PathVariable UUID id) throws Exception {
+        bancoCliente.removeCliente(id);
+        return ResponseEntity.ok().build();
     }
 }

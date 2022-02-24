@@ -27,11 +27,10 @@ public class BancoCliente {
         });
         return detalhesCliente(id);
     }
-    public Cliente removeCliente(UUID id) throws Exception{
+    public void removeCliente(UUID id) throws Exception{
         Optional<Cliente> resultCliente = clientes.stream().filter(cliente -> Objects.equals(cliente.getId(), id)).findAny();
         if(resultCliente.isPresent()){
             clientes.remove(resultCliente.get());
-            return resultCliente.get();
         }
         throw new Exception("Usuário não encontrádo");
     }
