@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter @Setter
 @AllArgsConstructor
 public class Conta {
-    private Integer numeroConta;
+    private UUID id;
+    private Integer conta;
     private Integer agencia;
     private TipoConta tipoConta;
+    private Double saldo;
 }

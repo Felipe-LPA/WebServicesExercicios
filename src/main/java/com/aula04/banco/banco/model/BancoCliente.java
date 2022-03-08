@@ -1,6 +1,7 @@
 package com.aula04.banco.banco.model;
 
 import com.aula04.banco.banco.dto.RequestCliente;
+import com.aula04.banco.banco.dto.RequestDeposito;
 
 import java.util.*;
 
@@ -36,5 +37,21 @@ public class BancoCliente {
         if(resultCliente.isPresent()){
             clientes.remove(resultCliente.get());
         }
+    }
+    public void deposita(UUID id, RequestDeposito requestDeposito) {
+        BancoCliente.clientes.stream().filter(cliente -> Objects.equals(cliente.getId(),id))
+                .forEach(cliente -> {
+                    Optional<Conta> resultConta = cliente.getContas().stream().filter(conta -> Objects.equals(conta.getId(),requestDeposito.getConta())).findAny();
+                    if(resultConta.isPresent()) {
+                        Double novoSaldo = resultConta.get().getSaldo() + requestDeposito.getValor();
+                        resultConta.get().setSaldo(novoSaldo);
+                    } else {
+                        try {
+                            throw new Exception("Conta não encontrada");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

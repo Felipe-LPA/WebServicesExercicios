@@ -1,4 +1,4 @@
-package com.aula04.banco.banco.utils;
+package com.aula04.banco.banco.utils.senha;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

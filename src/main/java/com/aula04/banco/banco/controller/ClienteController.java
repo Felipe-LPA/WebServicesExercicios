@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<ResponseCliente> cadastraCliente(
-            @RequestBody RequestCliente requestCliente,
+            @RequestBody @Valid RequestCliente requestCliente,
             UriComponentsBuilder uriComponentsBuilder
     ){
         Cliente cliente = clienteService.cadastraCliente(requestCliente);

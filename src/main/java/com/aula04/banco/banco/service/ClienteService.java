@@ -18,7 +18,7 @@ public class ClienteService {
 
     public Cliente cadastraCliente(RequestCliente requestCliente){
         List<Conta> contas = new ArrayList<>();
-        Conta conta = new Conta(random.nextInt(), random.nextInt(), TipoConta.CONTA_CORRENTE);
+        Conta conta = new Conta(UUID.randomUUID(),random.nextInt(), random.nextInt(), TipoConta.CONTA_CORRENTE, 0.0);
         contas.add(conta);
         Cliente cliente = new Cliente(
                 UUID.randomUUID(),
