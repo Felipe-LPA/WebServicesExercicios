@@ -15,27 +15,24 @@ import java.util.UUID;
 
 public class OperacoesServiceTest {
     OperacoesService operacoesService = new OperacoesService();
+    ClienteService clienteService = new ClienteService();
+
     Random random = new Random();
     @Test
     void VerificaValorDepositado() throws Exception {
-//        RequestCliente requestCliente = new RequestCliente(
-//                "Felipe",
-//                "Felipe@email.com",
-//                "asdasd");
-        Conta conta = new Conta(UUID.randomUUID(), random.nextInt(), random.nextInt(), TipoConta.CONTA_CORRENTE, 0.0);
-//        List<Conta> contas = new ArrayList<>();
-//        contas.add(conta);
-//        Cliente cliente = new Cliente(UUID.randomUUID(),
-//                requestCliente.getNome(),
-//                requestCliente.getEmail(),
-//                requestCliente.getSenha(),
-//                contas);
+        RequestCliente requestCliente = new RequestCliente(
+                "Felipe",
+                "Felipe@gmail",
+                "123456"
+        );
+        Cliente cliente = clienteService.cadastraCliente(requestCliente);
+        Conta conta = cliente.getContas().get(0);
         RequestDeposito requestDeposito = new RequestDeposito(
             23.5,
                 conta.getId());
         double valorAnterior = conta.getSaldo();
-        operacoesService.deposita(conta.getId(), requestDeposito);
-        Assertions.assertTrue(conta.getSaldo() == valorAnterior + requestDeposito.getValor());
-//        Assertions.assertThrows(Exception.class, ()-> operacoesService.deposita(UUID.randomUUID(), requestDeposito));
+        Conta resultConta = operacoesService.deposita(cliente.getId(), requestDeposito);
+        Assertions.assertTrue(resultConta.getSaldo() == valorAnterior + requestDeposito.getValor());
+//
     }
 }

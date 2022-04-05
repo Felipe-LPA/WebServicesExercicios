@@ -1,9 +1,9 @@
 package com.aula04.banco.banco.model;
 
 import com.aula04.banco.banco.dto.RequestCliente;
-import com.aula04.banco.banco.dto.RequestDeposito;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class BancoCliente {
     private static List<Cliente> clientes = new ArrayList<>();
@@ -34,24 +34,19 @@ public class BancoCliente {
 
     public void removeCliente(UUID id) {
         Optional<Cliente> resultCliente = clientes.stream().filter(cliente -> Objects.equals(cliente.getId(), id)).findAny();
-        if(resultCliente.isPresent()){
-            clientes.remove(resultCliente.get());
-        }
+        resultCliente.ifPresent(cliente -> clientes.remove(cliente));
     }
-    public void deposita(UUID id, RequestDeposito requestDeposito) {
-        BancoCliente.clientes.stream().filter(cliente -> Objects.equals(cliente.getId(),id))
-                .forEach(cliente -> {
-                    Optional<Conta> resultConta = cliente.getContas().stream().filter(conta -> Objects.equals(conta.getId(),requestDeposito.getConta())).findAny();
-                    if(resultConta.isPresent()) {
-                        Double novoSaldo = resultConta.get().getSaldo() + requestDeposito.getValor();
-                        resultConta.get().setSaldo(novoSaldo);
-                    } else {
-                        try {
-                            throw new Exception("Conta não encontrada");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+    public Optional<Conta> getConta(Cliente cliente, UUID contaId){
+        return cliente.getContas().stream().filter(conta -> Objects.equals(conta.getId(),contaId)).findAny();
+    }
+    public Conta deposita(Cliente cliente, Conta conta) {
+        AtomicReference<Conta> resultConta = new AtomicReference<>(new Conta());
+        clientes.stream().filter(clienteDB -> Objects.equals(cliente.getId(), clienteDB.getId())).forEach(clienteDB -> {
+            clienteDB.getContas().stream().filter(contaDB -> Objects.equals(conta.getId(), contaDB.getId())).forEach(contaDB -> {
+                contaDB.setSaldo(conta.getSaldo());
+                resultConta.set(contaDB);
+            });
+        });
+        return resultConta.get();
     }
 }
