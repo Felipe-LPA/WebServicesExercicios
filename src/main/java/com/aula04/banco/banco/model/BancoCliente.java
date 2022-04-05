@@ -39,7 +39,7 @@ public class BancoCliente {
     public Optional<Conta> getConta(Cliente cliente, UUID contaId){
         return cliente.getContas().stream().filter(conta -> Objects.equals(conta.getId(),contaId)).findAny();
     }
-    public Conta deposita(Cliente cliente, Conta conta) {
+    public Conta atualizaSaldo(Cliente cliente, Conta conta) {
         AtomicReference<Conta> resultConta = new AtomicReference<>(new Conta());
         clientes.stream().filter(clienteDB -> Objects.equals(cliente.getId(), clienteDB.getId())).forEach(clienteDB -> {
             clienteDB.getContas().stream().filter(contaDB -> Objects.equals(conta.getId(), contaDB.getId())).forEach(contaDB -> {
@@ -49,4 +49,5 @@ public class BancoCliente {
         });
         return resultConta.get();
     }
+
 }

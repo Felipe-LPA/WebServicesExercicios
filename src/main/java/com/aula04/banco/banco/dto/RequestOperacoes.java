@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter @Setter
 @AllArgsConstructor
-public class RequestDeposito {
+public class RequestOperacoes {
     @ValorPositivo
     private Double valor;
     private UUID conta;
